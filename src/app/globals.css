@@ -24,3 +24,17 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+/* Hide the entire right-hand panel in RainbowKit modal */
+[data-rk] .ju367v3o {
+  display: none !important;
+}
+
+/* Make the wallet list take full width and center it */
+[data-rk] .ju367v3n {
+  width: 100% !important;
+  justify-content: center !important;
+}
+
+[data-rk] .ju367v1h {
+  margin: 0 auto !important;
+}
