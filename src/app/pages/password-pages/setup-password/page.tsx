@@ -1,30 +1,30 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const SetupPasswordPage = () => {
-    const [pin, setPin] = useState("")
-    const router = useRouter()
+  const [pin, setPin] = useState("");
+  const router = useRouter();
 
   const handleInput = (num: string) => {
-    if (pin.length < 6) setPin(pin + num)
-  }
+    if (pin.length < 6) setPin(pin + num);
+  };
 
   const handleDelete = () => {
-    setPin(pin.slice(0, -1))
-  }
+    setPin(pin.slice(0, -1));
+  };
 
   const handleContinue = () => {
     if (pin.length === 6) {
-      localStorage.setItem("setupPin", pin)
-      
-      router.push("/pages/password-pages/confirm-password")
+      localStorage.setItem("setupPin", pin);
+
+      router.push("/pages/password-pages/confirm-password");
     }
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center text-center text-white px-6">
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center text-center text-white px-8">
       <div className="text-center mb-8">
         <h1 className="text-2xl font-semibold">Setup your password</h1>
         <p className="text-gray-400 mt-2">
@@ -82,9 +82,7 @@ const SetupPasswordPage = () => {
         </button>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default SetupPasswordPage
-
-
+export default SetupPasswordPage;

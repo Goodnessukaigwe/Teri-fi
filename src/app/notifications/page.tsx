@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import Image from "next/image"
+import Image from "next/image";
 import mailboxImage from "@/public/mailbox.png";
-import React, { JSX, useState } from 'react';
-import { ChevronLeft, AlertCircle } from 'lucide-react';
-import { useRouter } from "next/navigation"
+import React, { JSX, useState } from "react";
+import { ChevronLeft, AlertCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const NotificationsPage = () => {
-  const router = useRouter()
+  const router = useRouter();
   const [showNotifications, setShowNotifications] = useState(false);
 
-  type NotificationType = 'service' | 'transfer' | 'received';
-  type IconType = 'TERI-fi' | undefined;
+  type NotificationType = "service" | "transfer" | "received";
+  type IconType = "TERI-fi" | undefined;
 
   interface Notification {
     id: number;
@@ -26,90 +26,108 @@ const NotificationsPage = () => {
   const notifications: Notification[] = [
     {
       id: 1,
-      type: 'service',
-      title: 'Introducing Teri-fi USSD service',
-      subtitle: 'Make offline transactions with our...',
-      date: 'Oct 5',
-      icon: 'TERI-fi'
+      type: "service",
+      title: "Introducing Teri-fi USSD service",
+      subtitle: "Make offline transactions with our...",
+      date: "Oct 5",
+      icon: "TERI-fi",
     },
     {
       id: 2,
-      type: 'transfer',
-      title: 'Transferred to +2348034566',
-      subtitle: 'USDC',
-      amount: '5 USDC',
-      date: 'Oct 5',
-      icon: undefined
+      type: "transfer",
+      title: "Transferred to +2348034566",
+      subtitle: "USDC",
+      amount: "5 USDC",
+      date: "Oct 5",
+      icon: undefined,
     },
     {
       id: 3,
-      type: 'received',
-      title: 'Received from +2348034566',
-      subtitle: 'USDC',
-      amount: '5 USDC',
-      date: 'Oct 5',
-      icon: undefined
+      type: "received",
+      title: "Received from +2348034566",
+      subtitle: "USDC",
+      amount: "5 USDC",
+      date: "Oct 5",
+      icon: undefined,
     },
     {
       id: 4,
-      type: 'transfer',
-      title: 'Transferred to +2348034566',
-      subtitle: 'USDC',
-      amount: '5 USDC',
-      date: 'Oct 5',
-      icon: undefined
+      type: "transfer",
+      title: "Transferred to +2348034566",
+      subtitle: "USDC",
+      amount: "5 USDC",
+      date: "Oct 5",
     },
     {
       id: 5,
-      type: 'service',
-      title: 'Introducing Teri-fi USSD service',
-      subtitle: 'Make offline transactions with our...',
-      date: 'Oct 5',
-      icon: 'TERI-fi'
+      type: "service",
+      title: "Introducing Teri-fi USSD service",
+      subtitle: "Make offline transactions with our...",
+      date: "Oct 5",
+      icon: "TERI-fi",
     },
     {
       id: 6,
-      type: 'transfer',
-      title: 'Transferred to +2348034566',
-      subtitle: 'USDC',
-      amount: '5 USDC',
-      date: 'Oct 5'
-    }
+      type: "transfer",
+      title: "Transferred to +2348034566",
+      subtitle: "USDC",
+      amount: "5 USDC",
+      date: "Oct 5",
+    },
   ];
 
   const getIconColor = (type: NotificationType): string => {
-    if (type === 'service') return 'bg-cyan-500/20 text-cyan-500';
-    if (type === 'transfer') return 'bg-blue-500/20 text-blue-500';
-    if (type === 'received') return 'bg-purple-500/20 text-purple-500';
-    return 'bg-gray-700/20 text-gray-400';
+    if (type === "service") return "bg-cyan-500/20 text-cyan-500";
+    if (type === "transfer") return "bg-blue-500/20 text-blue-500";
+    if (type === "received") return "bg-purple-500/20 text-purple-500";
+    return "bg-gray-700/20 text-gray-400";
   };
-  
+
   const getIcon = (type: NotificationType, icon?: IconType): JSX.Element => {
-    if (icon === 'TERI-fi') {
+    if (icon === "TERI-fi") {
       return (
-        <div className={`w-10 h-10 rounded flex items-center justify-center ${getIconColor(type)}`}>
+        <div
+          className={`w-10 h-10 rounded flex items-center justify-center ${getIconColor(
+            type
+          )}`}
+        >
           <span className="text-xs font-bold">TERI-fi</span>
         </div>
       );
     }
 
-    if (type === 'transfer') {
+    if (type === "transfer") {
       return (
-        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${getIconColor(type)}`}>
-  
+        <div
+          className={`w-10 h-10 rounded-full flex items-center justify-center ${getIconColor(
+            type
+          )}`}
+        >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            <path d="M13 10V3L4 14h7v7l9-11h-7z" />
           </svg>
         </div>
       );
     }
 
-    if (type === 'received') {
+    if (type === "received") {
       return (
-        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${getIconColor(type)}`}>
+        <div
+          className={`w-10 h-10 rounded-full flex items-center justify-center ${getIconColor(
+            type
+          )}`}
+        >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="9" opacity="0.2"/>
-            <text x="12" y="14" textAnchor="middle" className="text-xs font-bold" fill="currentColor">$</text>
+            <circle cx="12" cy="12" r="9" opacity="0.2" />
+            <text
+              x="12"
+              y="14"
+              textAnchor="middle"
+              className="text-xs font-bold"
+              fill="currentColor"
+            >
+              $
+            </text>
           </svg>
           <span className="absolute text-lg font-bold">$</span>
         </div>
@@ -117,19 +135,24 @@ const NotificationsPage = () => {
     }
 
     return (
-      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${getIconColor(type)}`}>
+      <div
+        className={`w-10 h-10 rounded-full flex items-center justify-center ${getIconColor(
+          type
+        )}`}
+      >
         <AlertCircle className="w-5 h-5" />
       </div>
     );
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-       {/* Header */}
-       <header className="flex items-center gap-4 px-6 py-6 justify-between mr-25">
-        <button 
-         onClick={() => router.push("/home")}
-        className="text-gray-300 hover:text-white">
+    <div className="min-h-screen bg-black text-white w-95">
+      {/* Header */}
+      <header className="flex items-center gap-4 px-6 py-6 justify-between mr-25">
+        <button
+          onClick={() => router.push("/home")}
+          className="text-gray-300 hover:text-white"
+        >
           <ChevronLeft className="w-6 h-6" />
         </button>
         <h1 className="text-2xl font-normal ">Notifications</h1>

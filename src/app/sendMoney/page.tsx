@@ -31,8 +31,12 @@ const SendMoney = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) &&
-        inputRef.current && !inputRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node)
+      ) {
         setShowRecent(false);
       }
     }
@@ -70,7 +74,7 @@ const SendMoney = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white px-6 pt-8">
+    <div className="min-h-screen bg-black text-white px-6 pt-8 w-95">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-xl font-semibold">Send</h1>
@@ -94,7 +98,9 @@ const SendMoney = () => {
               ref={inputRef}
             />
             <ChevronDown
-              className={`w-4 h-4 text-gray-400 transition-transform ${showRecent ? 'rotate-180' : ''}`}
+              className={`w-4 h-4 text-gray-400 transition-transform ${
+                showRecent ? "rotate-180" : ""
+              }`}
               onClick={() => setShowRecent(!showRecent)}
             />
           </div>
@@ -104,7 +110,9 @@ const SendMoney = () => {
               ref={dropdownRef}
               className="absolute left-0 right-0 mt-2 bg-gray-800 rounded-xl shadow-lg z-50 max-h-60 overflow-auto border border-gray-700"
             >
-              <div className="p-2 text-xs text-gray-400 border-b border-gray-700">Recent</div>
+              <div className="p-2 text-xs text-gray-400 border-b border-gray-700">
+                Recent
+              </div>
               {recentTransactions.map((transaction) => (
                 <div
                   key={transaction.id}
@@ -131,7 +139,9 @@ const SendMoney = () => {
               onClick={() => setShowTokenDropdown(!showTokenDropdown)}
             />
             <ChevronDown
-              className={`w-4 h-4 text-gray-400 cursor-pointer transition-transform ${showTokenDropdown ? 'rotate-180' : ''}`}
+              className={`w-4 h-4 text-gray-400 cursor-pointer transition-transform ${
+                showTokenDropdown ? "rotate-180" : ""
+              }`}
               onClick={() => setShowTokenDropdown(!showTokenDropdown)}
             />
           </div>
@@ -146,7 +156,8 @@ const SendMoney = () => {
                     setShowTokenDropdown(false);
                   }}
                 >
-                  {coin.symbol} <span className="text-xs text-gray-400">{coin.name}</span>
+                  {coin.symbol}{" "}
+                  <span className="text-xs text-gray-400">{coin.name}</span>
                 </div>
               ))}
             </div>
@@ -165,7 +176,7 @@ const SendMoney = () => {
       </div>
 
       {/* Quick select buttons */}
-      <div className="flex gap-3 mt-6">
+      <div className="flex gap-3 mt-6 ml-12">
         {["$50", "$100", "$200"].map((val) => (
           <button
             key={val}
@@ -188,6 +199,6 @@ const SendMoney = () => {
       </div>
     </div>
   );
-}
+};
 
-export default SendMoney
+export default SendMoney;

@@ -1,42 +1,41 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import Image from "next/image"
-
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const ConfirmPasswordPage = () => {
-  const [pin, setPin] = useState("")
-  const [isSuccess, setIsSuccess] = useState(false)
-  const [error, setError] = useState("")
-  const router = useRouter()
+  const [pin, setPin] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
 
   const handleInput = (num: string) => {
-    if (error) setError("")
+    if (error) setError("");
 
-    const newPin = pin + num
-    setPin(newPin)
+    const newPin = pin + num;
+    setPin(newPin);
 
     if (newPin.length === 6) {
-      const savedPin = localStorage.getItem("setupPin")
+      const savedPin = localStorage.getItem("setupPin");
 
       if (newPin === savedPin) {
         // Clear saved pin for security, then show success
-        localStorage.removeItem("setupPin")
+        localStorage.removeItem("setupPin");
         setTimeout(() => {
-          setIsSuccess(true)
-        }, 500)
+          setIsSuccess(true);
+        }, 500);
       } else {
-        setError("PINs do not match. Please try again.")
-        setPin("")
+        setError("PINs do not match. Please try again.");
+        setPin("");
 
-        setTimeout(() => setError(""), 3500)
+        setTimeout(() => setError(""), 3500);
       }
     }
-  }
+  };
   const handleDelete = () => {
-    setPin(pin.slice(0, -1))
-  }
+    setPin(pin.slice(0, -1));
+  };
 
   if (isSuccess) {
     return (
@@ -69,7 +68,7 @@ const ConfirmPasswordPage = () => {
           Proceed to homepage
         </button>
       </div>
-    )
+    );
   }
 
   // Animated Confetti Popup component
@@ -81,8 +80,10 @@ const ConfirmPasswordPage = () => {
     return (
       <div className="absolute top-10 left-0 right-0 flex justify-center pointer-events-none">
         <div
-          className={`transition-all duration-700 ${animate ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}
-          style={{ willChange: 'transform, opacity' }}
+          className={`transition-all duration-700 ${
+            animate ? "opacity-100 scale-100" : "opacity-0 scale-75"
+          }`}
+          style={{ willChange: "transform, opacity" }}
         >
           <Image
             src="/confetti.png"
@@ -113,8 +114,9 @@ const ConfirmPasswordPage = () => {
           .map((_, i) => (
             <div
               key={i}
-              className={`w-4 h-4 rounded-full transition-colors duration-200 ${pin.length > i ? "bg-white" : "bg-gray-700"
-                }`}
+              className={`w-4 h-4 rounded-full transition-colors duration-200 ${
+                pin.length > i ? "bg-white" : "bg-gray-700"
+              }`}
             ></div>
           ))}
       </div>
@@ -128,7 +130,6 @@ const ConfirmPasswordPage = () => {
           {error}
         </p>
       )}
-
 
       {/* Number pad */}
       <div className="grid grid-cols-3 gap-4 w-full mt-5 max-w-xs">
@@ -159,7 +160,7 @@ const ConfirmPasswordPage = () => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ConfirmPasswordPage
+export default ConfirmPasswordPage;
