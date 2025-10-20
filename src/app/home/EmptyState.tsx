@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import { Eye, EyeOff, Copy, Bell, ChevronDown, ArrowUp, Plus, Home, Send, Clock, Settings } from 'lucide-react';
+import { Eye, EyeOff, Copy, Bell, ChevronDown, ArrowUp, Plus, Clock,} from 'lucide-react';
 import { useRouter } from "next/navigation"
 import Image from 'next/image';
 import historyImage from '@/public/history.png';
@@ -91,37 +91,7 @@ const EmptyState = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Bottom Navigation */}
-            <nav className="px-6 py-6 ">
-                <div className="flex justify-around items-center">
-                    <button
-                     onClick={() => router.push("/home")}
-                     className="flex flex-col items-center gap-1 text-cyan-500">
-                        <Home className="w-6 h-6" />
-                        <span className="text-xs">Home</span>
-                    </button>
-                    <button
-                     onClick={() => router.push("/sendMoney")}
-                     className="flex flex-col items-center gap-1 text-gray-500 hover:text-cyan-500">
-                        <Send className="w-6 h-6" />
-                        <span className="text-xs">Send</span>
-                    </button>
-                    <button 
-                     onClick={() => router.push("/transactions")}
-                     className="flex flex-col items-center gap-1 text-gray-500 hover:text-cyan-500">
-                        <Clock className="w-6 h-6" />
-                        <span className="text-xs">Transactions</span>
-                    </button>
-                    <button 
-                     onClick={() => router.push("/settings")}
-                     className="flex flex-col items-center gap-1 text-gray-500 hover:text-cyan-500">
-                        <Settings className="w-6 h-6" />
-                        <span className="text-xs">Settings</span>
-                    </button>
-                </div>
-            </nav>
-        </div>
+</div>
     );
 };
 

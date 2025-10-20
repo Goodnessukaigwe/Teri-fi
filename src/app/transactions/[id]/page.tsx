@@ -7,24 +7,24 @@ export default function TransactionDetailsPage() {
   const router = useRouter();
   const { id } = useParams();
 
-  // Temporary mock data 
+  // Temporary mock data
   const transaction = [
-  
     {
-    id,
-    type: "Received",
-    date: "Sun Oct 5, 2025",
-    from: "0x742d35Cc6634C0532925a3b844Bc9e9F50bEb4",
-    to: "0x742d35Cc6634C0532925a3b844Bc9e9F50bEb4",
-    status: "Delivered",
-    asset: "100 USDC",
-    rate: "NGN 200,000",
-    network: "Base",
-    }
+      id,
+      type: "Received",
+      date: "Sun Oct 5, 2025",
+      from: "0x742d35Cc6634C0532925a3b844Bc9e9F50bEb4",
+      to: "0x742d35Cc6634C0532925a3b844Bc9e9F50bEb4",
+      status: "Delivered",
+      asset: "100 USDC",
+      rate: "NGN 200,000",
+      network: "Base",
+    },
   ];
 
   // Find the specific transaction by ID
-  const currentTransaction = transaction.find((t) => t.id === id) || transaction[0];
+  const currentTransaction =
+    transaction.find((t) => t.id === id) || transaction[0];
 
   if (!currentTransaction) {
     return <div>Transaction not found</div>;
@@ -34,7 +34,10 @@ export default function TransactionDetailsPage() {
     <div className="min-h-screen bg-black text-white p-6">
       {/* Header */}
       <div className="flex items-center gap-4 px-6 py-6 justify-between mr-15 mb-10">
-        <button onClick={() => router.back()} className="text-gray-400 hover:text-white">
+        <button
+          onClick={() => router.back()}
+          className="text-gray-400 hover:text-white"
+        >
           <ArrowLeft className="w-6 h-6" />
         </button>
         <h1 className="text-xl font-medium">Transaction details</h1>
