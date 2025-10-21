@@ -115,9 +115,9 @@ const TransactionHistory = () => {
 
   return (
     <MainLayout>
-      <div className="w-96">
+      <div className=" w-96">
         {/* Header */}
-        <header className="flex items-center gap-4 px-6 py-6 justify-between mr-10 ">
+        <header className="flex items-center mr-20 gap-4 px-6 py-6 justify-between mr-10 ">
           <button
             onClick={() => router.push("/home")}
             className="text-gray-300 hover:text-white"

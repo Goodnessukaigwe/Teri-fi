@@ -26,5 +26,6 @@ export async function checkUserHasTransactions(): Promise<boolean> {
  */
 export async function checkUserHasTransactionsServer(): Promise<boolean> {
   // For testing the transactions view
-  return false; // This will show the transactions list
+  return true; // This will show the transactions list
 }
+

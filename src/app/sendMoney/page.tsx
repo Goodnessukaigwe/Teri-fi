@@ -1,22 +1,26 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { ChevronDown, X, Clock } from "lucide-react";
+import { ChevronLeft, ChevronDown, X, Clock } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const SendMoney = () => {
   const router = useRouter();
   const [phone, setPhone] = useState("");
   const [token, setToken] = useState("");
-  const [showTokenDropdown, setShowTokenDropdown] = useState(false);
-  // Stable coins for dropdown
+  const [errors, setErrors] = useState({
+    phone: "",
+    token: "",
+    amount: ""
+  });
   const stableCoins = [
     { symbol: "USDC", name: "USD Coin" },
     { symbol: "USDT", name: "Tether" },
-    { symbol: "DAI", name: "Dai" },
+    { symbol: "DAI",  name: "Dai" },
   ];
   const [amount, setAmount] = useState("");
   const [showRecent, setShowRecent] = useState(false);
+  const [showTokenDropdown, setShowTokenDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -50,6 +54,7 @@ const SendMoney = () => {
   const handleSelectRecipient = (value: string) => {
     setPhone(value);
     setShowRecent(false);
+    if (errors.phone) setErrors((prev) => ({ ...prev, phone: "" }));
   };
 
   // Hide recent dropdown if user types a value not in history
@@ -68,15 +73,83 @@ const SendMoney = () => {
     }
   }, [phone]);
 
-  const handleQuickSelect = (value: string) => setAmount(value);
-  const handleNext = () => {
-    router.push("/sendMoney/confirm");
+  // Auto-clear errors after a short delay so the UI doesn't stay red
+  useEffect(() => {
+    const timers: number[] = [];
+    if (errors.phone) {
+      timers.push(window.setTimeout(() => {
+        setErrors((prev) => ({ ...prev, phone: "" }));
+      }, 1000));
+    }
+    if (errors.token) {
+      timers.push(window.setTimeout(() => {
+        setErrors((prev) => ({ ...prev, token: "" }));
+      }, 1000));
+    }
+    if (errors.amount) {
+      timers.push(window.setTimeout(() => {
+        setErrors((prev) => ({ ...prev, amount: "" }));
+      }, 1000));
+    }
+
+    return () => {
+      timers.forEach((t) => clearTimeout(t));
+    };
+  }, [errors.phone, errors.token, errors.amount]);
+
+  const handleQuickSelect = (value: string) => {
+    setAmount(value);
+    if (errors.amount) setErrors((prev) => ({ ...prev, amount: "" }));
+  };
+
+  const handleContinue = () => {
+    const trimmedPhone = phone.trim();
+    const trimmedAmount = amount.trim();
+    const newErrors = { phone: "", token: "", amount: "" };
+
+    // Phone or wallet address validation
+    if (!trimmedPhone) {
+      newErrors.phone = "Please enter a phone number or wallet address";
+    } else {
+      const isPhone = /^\+?\d{7,15}$/.test(trimmedPhone);
+      const isAddress = /^0x[a-fA-F0-9]{40}$/.test(trimmedPhone);
+      if (!isPhone && !isAddress) {
+        newErrors.phone = "Enter a valid phone number or wallet address";
+      }
+    }
+
+    // Token selection validation
+    if (!token) {
+      newErrors.token = "Please select a token";
+    }
+
+    // Amount validation (allow presets like "$50")
+    if (!trimmedAmount) {
+      newErrors.amount = "Please enter an amount";
+    } else {
+      const numeric = Number(trimmedAmount.replace(/[^0-9.]/g, ""));
+      if (!(numeric > 0)) {
+        newErrors.amount = "Enter a valid amount greater than 0";
+      }
+    }
+
+    setErrors(newErrors);
+    const hasErrors = Object.values(newErrors).some(Boolean);
+    if (!hasErrors) {
+      router.push("/sendMoney/confirm");
+    }
   };
 
   return (
     <div className="min-h-screen bg-black text-white px-6 pt-8 w-95">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between mr-5 items-center mb-8">
+        <button
+          onClick={() => router.back()}
+          className="text-gray-300 hover:text-white"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
         <h1 className="text-xl font-semibold">Send</h1>
         <X
           className="w-6 h-6 text-gray-400 cursor-pointer hover:text-gray-200 transition-colors"
@@ -87,20 +160,26 @@ const SendMoney = () => {
       {/* Input fields */}
       <div className="space-y-4">
         <div className="relative">
-          <div className="bg-gray-900 rounded-xl px-4 py-3 flex justify-between items-center">
+          <div className={`bg-gray-900 rounded-xl px-4 py-3 flex justify-between items-center border ${
+            errors.phone ? "border-red-500 ring-1 ring-red-500/30" : "border-gray-800"
+          }`}>
             <input
               type="text"
               placeholder="Enter recipient phone/ wallet"
               className="bg-transparent outline-none text-sm flex-1 placeholder-gray-500 w-full"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                setPhone(e.target.value);
+                if (errors.phone) setErrors((prev) => ({ ...prev, phone: "" }));
+              }}
               onFocus={() => setShowRecent(true)}
               ref={inputRef}
+              aria-invalid={!!errors.phone}
+              aria-describedby={errors.phone ? "phone-error" : undefined}
             />
             <ChevronDown
-              className={`w-4 h-4 text-gray-400 transition-transform ${
-                showRecent ? "rotate-180" : ""
-              }`}
+              className={`w-4 h-4 text-gray-400 transition-transform ${showRecent ? "rotate-180" : ""
+                }`}
               onClick={() => setShowRecent(!showRecent)}
             />
           </div>
@@ -125,10 +204,17 @@ const SendMoney = () => {
               ))}
             </div>
           )}
+          {errors.phone && (
+            <p id="phone-error" className="mt-1 text-xs text-red-400">
+              {errors.phone}
+            </p>
+          )}
         </div>
 
         <div className="relative">
-          <div className="bg-gray-900 rounded-xl px-4 py-3 flex justify-between items-center">
+          <div className={`bg-gray-900 rounded-xl px-4 py-3 flex justify-between items-center border ${
+            errors.token ? "border-red-500 ring-1 ring-red-500/30" : "border-gray-800"
+          }`}>
             <input
               type="text"
               placeholder="Token type"
@@ -137,11 +223,12 @@ const SendMoney = () => {
               readOnly
               onFocus={() => setShowTokenDropdown(true)}
               onClick={() => setShowTokenDropdown(!showTokenDropdown)}
+              aria-invalid={!!errors.token}
+              aria-describedby={errors.token ? "token-error" : undefined}
             />
             <ChevronDown
-              className={`w-4 h-4 text-gray-400 cursor-pointer transition-transform ${
-                showTokenDropdown ? "rotate-180" : ""
-              }`}
+              className={`w-4 h-4 text-gray-400 cursor-pointer transition-transform ${showTokenDropdown ? "rotate-180" : ""
+                }`}
               onClick={() => setShowTokenDropdown(!showTokenDropdown)}
             />
           </div>
@@ -150,38 +237,56 @@ const SendMoney = () => {
               {stableCoins.map((coin) => (
                 <div
                   key={coin.symbol}
-                  className="px-4 py-2 cursor-pointer hover:bg-gray-700 text-sm"
+                  className="px-4 py-2 cursor-pointer hover:bg-gray-700 text-sm grid grid-cols-2 gap-4"
                   onClick={() => {
                     setToken(coin.symbol);
                     setShowTokenDropdown(false);
+                    if (errors.token) setErrors((prev) => ({ ...prev, token: "" }));
                   }}
                 >
-                  {coin.symbol}{" "}
-                  <span className="text-xs text-gray-400">{coin.name}</span>
+                  <span className="font-medium">{coin.symbol}</span>
+                  <span className="text-gray-400 text-right pr-2">{coin.name}</span>
                 </div>
               ))}
             </div>
           )}
+          {errors.token && (
+            <p id="token-error" className="mt-1 text-xs text-red-400">
+              {errors.token}
+            </p>
+          )}
         </div>
 
-        <div className="bg-gray-900 rounded-xl px-4 py-3">
+        <div className={`bg-gray-900 rounded-xl px-4 py-3 border ${
+          errors.amount ? "border-red-500 ring-1 ring-red-500/30" : "border-gray-800"
+        }`}>
           <input
             type="text"
             placeholder="Enter amount"
             className="bg-transparent outline-none text-sm w-full placeholder-gray-500"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={(e) => {
+              setAmount(e.target.value);
+              if (errors.amount) setErrors((prev) => ({ ...prev, amount: "" }));
+            }}
+            aria-invalid={!!errors.amount}
+            aria-describedby={errors.amount ? "amount-error" : undefined}
           />
         </div>
+        {errors.amount && (
+          <p id="amount-error" className="text-xs text-red-400">
+            {errors.amount}
+          </p>
+        )}
       </div>
 
       {/* Quick select buttons */}
-      <div className="flex gap-3 mt-6 ml-12">
+      <div className="flex gap-3 mt-6">
         {["$50", "$100", "$200"].map((val) => (
           <button
             key={val}
             onClick={() => handleQuickSelect(val)}
-            className="bg-gray-900 rounded-xl py-3 px-6 text-sm text-gray-200"
+            className="bg-gray-900 rounded-xl py-3 px-8 text-sm text-gray-200 flex-1 "
           >
             {val}
           </button>
@@ -191,7 +296,7 @@ const SendMoney = () => {
       {/* Next button */}
       <div className="mt-10">
         <button
-          onClick={() => router.push("/sendMoney/confirm")}
+          onClick={handleContinue}
           className="w-full bg-cyan-500 hover:bg-cyan-600 text-black font-semibold py-3 rounded-xl text-sm"
         >
           Continue

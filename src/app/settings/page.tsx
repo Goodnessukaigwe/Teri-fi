@@ -40,7 +40,7 @@ export default function SettingsPage() {
     <MainLayout>
       <div className="px-6 py-8 w-96">
         {/* Header */}
-        <header className="flex items-center gap-4 px-6 py-6 justify-between mb-4">
+        <header className="flex items-center mr-23 gap-4 px-6 py-6 justify-between mb-4">
           <button
             onClick={() => router.back()}
             className="text-gray-300 hover:text-white"

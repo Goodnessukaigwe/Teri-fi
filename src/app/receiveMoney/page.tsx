@@ -9,7 +9,7 @@ export default function ReceivePage() {
   return (
     <div className="min-h-screen bg-black text-white px-6 py-8 w-95">
       {/* Header */}
-      <header className="flex items-center gap-4 px-6 py-6 justify-between mb-8">
+      <header className="flex items-center mr-23 gap-4 px-6 py-6 justify-between mb-8">
         <button
           onClick={() => router.back()}
           className="text-gray-300 hover:text-white"
