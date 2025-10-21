@@ -17,7 +17,7 @@ const ConfirmSend = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white px-6 pt-8 relative">
+    <div className="min-h-screen bg-black text-white px-6 pt-8 relative w-95">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <button onClick={() => router.back()} className="p-1 -ml-1">
@@ -72,13 +72,13 @@ const ConfirmSend = () => {
       <div className="flex gap-4 mt-8">
         <button
           onClick={() => router.push("/send")}
-          className="flex-1 border border-cyan-500 text-cyan-500 py-3 rounded-xl text-sm font-medium"
+          className="flex-1 border border-cyan-500 text-cyan-500 py-3 hover:bg-cyan-500 hover:text-white rounded-xl text-sm font-medium"
         >
           Cancel
         </button>
         <button
           onClick={handleConfirm}
-          className="flex-1 bg-cyan-500 text-black py-3 rounded-xl text-sm font-semibold"
+          className="flex-1 border border-cyan-500 text-cyan-500 py-3 hover:bg-cyan-500 hover:text-white rounded-xl text-sm font-medium"
         >
           Confirm and Send
         </button>

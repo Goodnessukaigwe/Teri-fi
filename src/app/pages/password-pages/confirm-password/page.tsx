@@ -73,26 +73,53 @@ const ConfirmPasswordPage = () => {
 
   // Animated Confetti Popup component
   function ConfettiPopup() {
-    const [animate, setAnimate] = useState(false);
-    useEffect(() => {
-      setAnimate(true);
-    }, []);
+    const confettiColors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2'];
+    const bursts = 5;
+    const piecesPerBurst = 60;
+    
+    const confettiPieces = Array.from({ length: bursts * piecesPerBurst }, (_, i) => {
+      const burstIndex = Math.floor(i / piecesPerBurst);
+      const pieceIndex = i % piecesPerBurst;
+      const angle = (pieceIndex / piecesPerBurst) * 360;
+      const distance = 150 + Math.random() * 100;
+      const burstDelay = burstIndex * 0.6;
+      
+      return {
+        id: i,
+        angle,
+        distance,
+        delay: burstDelay + Math.random() * 0.2,
+        color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+        rotation: Math.random() * 360,
+        size: 8 + Math.random() * 6
+      };
+    });
+
     return (
       <div className="absolute top-10 left-0 right-0 flex justify-center pointer-events-none">
-        <div
-          className={`transition-all duration-700 ${
-            animate ? "opacity-100 scale-100" : "opacity-0 scale-75"
-          }`}
-          style={{ willChange: "transform, opacity" }}
-        >
-          <Image
-            src="/confetti.png"
-            alt="Confetti"
-            width={180}
-            height={180}
-            className="opacity-90"
-            priority
-          />
+        <div className="relative w-[180px] h-[180px]">
+          {confettiPieces.map((piece) => (
+            <div
+              key={piece.id}
+              className="absolute top-1/2 left-1/2 animate-confetti-burst"
+              style={{
+                animationDelay: `${piece.delay}s`,
+                '--angle': `${piece.angle}deg`,
+                '--distance': `${piece.distance}px`,
+              } as React.CSSProperties & { '--angle': string; '--distance': string }}
+            >
+              <div
+                className="animate-confetti-spin"
+                style={{
+                  width: `${piece.size}px`,
+                  height: `${piece.size}px`,
+                  backgroundColor: piece.color,
+                  transform: `rotate(${piece.rotation}deg)`,
+                  animationDuration: `${0.5 + Math.random() * 0.5}s`,
+                }}
+              />
+            </div>
+          ))}
         </div>
       </div>
     );

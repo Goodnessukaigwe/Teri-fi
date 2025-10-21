@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 const NotificationsPage = () => {
   const router = useRouter();
-  const [showNotifications, setShowNotifications] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(true);
 
   type NotificationType = "service" | "transfer" | "received";
   type IconType = "TERI-fi" | undefined;
