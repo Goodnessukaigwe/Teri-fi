@@ -143,7 +143,7 @@ const SendMoney = () => {
   return (
     <div className="min-h-screen bg-black text-white px-6 pt-8 w-95">
       {/* Header */}
-      <div className="flex justify-between mr-5 items-center mb-8f">
+      <div className="flex justify-between mr-5 items-center mb-8">
         <button
           onClick={() => router.back()}
           className="text-gray-300 hover:text-white"
