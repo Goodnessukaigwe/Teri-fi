@@ -24,7 +24,7 @@ const GetStartedPage = () => {
       </div>
 
       <button
-        onClick={() => router.push("/pages/password-pages/setup-password")}
+        onClick={() => router.push("/pages/phone-number")}
         className="mt-8 w-full max-w-xs py-3 bg-sky-500 rounded-lg text-white text-lg font-medium"
       >
         Get Started
