@@ -16,7 +16,7 @@ const ConfirmPasswordPage = () => {
     const newPin = pin + num;
     setPin(newPin);
 
-    if (newPin.length === 6) {
+    if (newPin.length === 4) {
       const savedPin = localStorage.getItem("setupPin");
 
       if (newPin === savedPin) {
@@ -136,7 +136,7 @@ const ConfirmPasswordPage = () => {
 
       {/* PIN display */}
       <div className="flex gap-2 mb-10">
-        {Array(6)
+        {Array(4)
           .fill("")
           .map((_, i) => (
             <div
@@ -165,7 +165,7 @@ const ConfirmPasswordPage = () => {
             key={num}
             onClick={() => handleInput(num)}
             className="text-2xl font-semibold bg-neutral-800 w-16 h-16 rounded-full active:bg-neutral-700 transition-colors"
-            disabled={pin.length >= 6}
+            disabled={pin.length >= 4}
           >
             {num}
           </button>
@@ -174,7 +174,7 @@ const ConfirmPasswordPage = () => {
         <button
           onClick={() => handleInput("0")}
           className="text-2xl font-semibold bg-neutral-800 w-16 h-16 rounded-full active:bg-neutral-700 transition-colors"
-          disabled={pin.length >= 6}
+          disabled={pin.length >= 4}
         >
           0
         </button>

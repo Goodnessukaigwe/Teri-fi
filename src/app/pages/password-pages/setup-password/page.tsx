@@ -8,7 +8,7 @@ const SetupPasswordPage = () => {
   const router = useRouter();
 
   const handleInput = (num: string) => {
-    if (pin.length < 6) setPin(pin + num);
+    if (pin.length < 4) setPin(pin + num);
   };
 
   const handleDelete = () => {
@@ -16,7 +16,7 @@ const SetupPasswordPage = () => {
   };
 
   const handleContinue = () => {
-    if (pin.length === 6) {
+    if (pin.length === 4) {
       localStorage.setItem("setupPin", pin);
       
       // Store phone number and pin together for backend submission
@@ -42,8 +42,8 @@ const SetupPasswordPage = () => {
       </div>
 
       {/* PIN display */}
-      <div className="flex gap-2 mb-6">
-        {Array(6)
+      <div className="flex gap-2 mb-4">
+        {Array(4)
           .fill("")
           .map((_, i) => (
             <div
@@ -56,7 +56,7 @@ const SetupPasswordPage = () => {
       </div>
 
       {/* Number pad */}
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-4">
         {[..."123456789"].map((num) => (
           <button
             key={num}
@@ -82,7 +82,7 @@ const SetupPasswordPage = () => {
       </div>
 
       {/* Continue button - shows when PIN is complete */}
-      {pin.length === 6 && (
+      {pin.length === 4 && (
         <button
           onClick={handleContinue}
           className="mt-8 w-full max-w-xs py-3 bg-sky-500 rounded-lg text-white text-lg font-medium"
