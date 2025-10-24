@@ -18,6 +18,15 @@ const SetupPasswordPage = () => {
   const handleContinue = () => {
     if (pin.length === 6) {
       localStorage.setItem("setupPin", pin);
+      
+      // Store phone number and pin together for backend submission
+      const phoneNumber = localStorage.getItem("userPhoneNumber");
+      if (phoneNumber) {
+        localStorage.setItem("userCredentials", JSON.stringify({
+          phoneNumber,
+          pin
+        }));
+      }
 
       router.push("/pages/password-pages/confirm-password");
     }
